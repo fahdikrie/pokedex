@@ -2,13 +2,13 @@ import React from 'react';
 import './App.css';
 
 import Layout from './components/Layout/Layout';
-import GridWrapper from './containers/GridWrapper/GridWrapper';
+import PokeFeed from './containers/PokeFeed/PokeFeed';
 
 function App() {
   return (
     <Layout>
       <h5>content</h5>
-      <GridWrapper/>
+      <PokeFeed/>
     </Layout>
   );
 }
