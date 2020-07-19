@@ -9,6 +9,8 @@ import {
 
 const initialState = fromJS({
   pokemonList: [],
+  prevUrl: '',
+  nextUrl: '',
   error: null,
   isLoaded: false,
   isLoading: false
@@ -20,7 +22,13 @@ function pokeFeedReducer(state = initialState, action) {
       return state.set("isLoading", true);
     case FETCH_POKEMON_LIST_SUCCESS:
       return state
-        .set("pokemonList", action.payload)
+        .set(
+          "pokemonList",
+          action.payload.results
+            .map(arr => [arr.name, arr.url])
+        )
+        .set("prevURL", action.payload.previous)
+        .set("nextURL", action.payload.next)
         .set("isLoading", false)
         .set("isLoaded", true);
     case FETCH_POKEMON_LIST_FAILED:

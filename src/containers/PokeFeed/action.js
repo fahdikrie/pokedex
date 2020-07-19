@@ -5,9 +5,9 @@ import {
   FETCH_POKEMON_LIST_FAILED
 } from "./constants";
 
-import { fetchPokeListAPI } from "api";
+import { fetchPokeListAPI } from "../../api";
 
-export function fetchPokemonList() {
+export function fetchPokeList() {
   return dispatch => {
     dispatch({ type: FETCH_POKEMON_LIST });
     axios
