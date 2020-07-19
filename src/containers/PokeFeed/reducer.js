@@ -4,26 +4,29 @@ import { fromJS } from "immutable";
 import {
   FETCH_POKEMON_LIST,
   FETCH_POKEMON_LIST_SUCCESS,
-  FETCH_POKEMON_LIST_FAILED
+  FETCH_POKEMON_LIST_FAILED,
+  FETCH_NEXT_POKEMON_LIST,
+  FETCH_NEXT_POKEMON_LIST_SUCCESS,
+  FETCH_NEXT_POKEMON_LIST_FAILED
 } from "./constants";
 
-const initialState = fromJS({
-  pokemonList: [],
-  prevUrl: '',
-  nextUrl: '',
-  error: null,
-  isLoaded: false,
-  isLoading: false
-});
-
-// const initialState = {
+// const initialState = fromJS({
 //   pokemonList: [],
 //   prevUrl: '',
 //   nextUrl: '',
 //   error: null,
 //   isLoaded: false,
 //   isLoading: false
-// };
+// });
+
+const initialState = {
+  pokemonList: [],
+  prevUrl: '',
+  nextUrl: '',
+  error: null,
+  isLoaded: false,
+  isLoading: false
+};
 
 function pokeFeedReducer(state = initialState, action) {
   console.log('reducing...');
@@ -32,7 +35,11 @@ function pokeFeedReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_POKEMON_LIST:
       console.log('fetching...');
-      return state.set("isLoading", true);
+      return {
+        ...initialState,
+        isLoading: true
+      }
+      // return state.set("isLoading", true);
     case FETCH_POKEMON_LIST_SUCCESS:
       console.log('success!');
       return {
@@ -55,10 +62,46 @@ function pokeFeedReducer(state = initialState, action) {
       //   .set("isLoading", false)
       //   .set("isLoaded", true);
     case FETCH_POKEMON_LIST_FAILED:
-      return state
-        .set("error", action.payload)
-        .set("isLoading", false)
-        .set("isLoaded", false);
+      return {
+        ...initialState,
+        error: action.payload,
+        isLoading: false,
+        isLoaded: false
+      }
+      // return state
+      //   .set("error", action.payload)
+      //   .set("isLoading", false)
+      //   .set("isLoaded", false);
+
+    case FETCH_NEXT_POKEMON_LIST:
+      console.log('fetching...');
+      return {
+        ...initialState,
+        isLoading: true
+      }
+
+    case FETCH_NEXT_POKEMON_LIST_SUCCESS:
+      console.log('success!');
+      const newPokemonData = action.payload.results.map(arr => [arr.name, arr.url]);
+
+      return {
+        ...initialState,
+        pokemonList: [...state.pokemonList, newPokemonData],
+        prevUrl: action.payload.previous,
+        nextUrl: action.payload.next,
+        error: null,
+        isLoaded: true,
+        isLoading: false
+      }
+
+    case FETCH_NEXT_POKEMON_LIST_FAILED:
+      return {
+        ...initialState,
+        error: action.payload,
+        isLoading: false,
+        isLoaded: false
+      }
+
     default:
       return state;
   };

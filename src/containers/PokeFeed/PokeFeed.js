@@ -12,18 +12,16 @@ import { fetchPokeListAPI } from '../../api';
 import { fetchPokeList } from './action';
 
 class PokeFeed extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-        isLoaded: false,
-    };
-}
 
   componentDidMount() {
     console.log(this.props)
     this.props.fetchPokeList();
   };
+
+  loadNextPage = () => {
+    const nextPage = this.props.nextUrl
+    console.log(nextPage);
+  }
 
   render() {
     // const { isLoading, isLoaded, data } = this.props;
@@ -33,13 +31,15 @@ class PokeFeed extends Component {
     return(
       <Auxiliary>
         <GridWrapper>
-          {/* {this.props.pokemonList.map(
-            arrEl => <GridCards pokeName={arrEl[0]} pokeUrl={arrEl[1]}/>
-          )} */}
           {(typeof this.props.pokemonList != 'undefined')?
-            this.props.pokemonList.map(
-              arrEl => <GridCards pokeName={arrEl[0]} pokeUrl={arrEl[1]}/>
-            )
+            [ this.loadNextPage(),
+              this.props.pokemonList.map(
+              arrEl =>
+                <GridCards
+                  key={arrEl[0]}
+                  pokeName={arrEl[0]}
+                  pokeUrl={arrEl[1]} />
+            )]
           : 'loading...'}
         </GridWrapper>
       </Auxiliary>

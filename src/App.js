@@ -7,7 +7,6 @@ import PokeFeed from './containers/PokeFeed/PokeFeed';
 function App() {
   return (
     <Layout>
-      <h5>content</h5>
       <PokeFeed/>
     </Layout>
   );
