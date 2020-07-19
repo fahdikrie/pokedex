@@ -8,8 +8,7 @@ import GridCards from '../../components/GridWrapper/GridCards/GridCards';
 import classes from './PokeFeed.module.css';
 
 
-import { fetchPokeListAPI } from '../../api';
-import { fetchPokeList } from './action';
+import { fetchPokeList, fetchNextPokeList } from './action';
 
 class PokeFeed extends Component {
 
@@ -21,6 +20,9 @@ class PokeFeed extends Component {
   loadNextPage = () => {
     const nextPage = this.props.nextUrl
     console.log(nextPage);
+    if (typeof nextPage != undefined) {
+      this.props.fetchNextPokeList(nextPage);
+    }
   }
 
   render() {
@@ -32,15 +34,15 @@ class PokeFeed extends Component {
       <Auxiliary>
         <GridWrapper>
           {(typeof this.props.pokemonList != 'undefined')?
-            [ this.loadNextPage(),
               this.props.pokemonList.map(
               arrEl =>
                 <GridCards
                   key={arrEl[0]}
                   pokeName={arrEl[0]}
                   pokeUrl={arrEl[1]} />
-            )]
+              )
           : 'loading...'}
+          <button onClick={this.loadNextPage}>Show More</button>
         </GridWrapper>
       </Auxiliary>
     )
@@ -60,7 +62,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchPokeList: () => dispatch(fetchPokeList())
+    fetchPokeList: () => dispatch(fetchPokeList()),
+    fetchNextPokeList: (nextUrl) => dispatch(fetchNextPokeList(nextUrl))
   };
 }
 

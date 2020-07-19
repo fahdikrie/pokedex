@@ -29,7 +29,7 @@ export function fetchPokeList() {
   };
 }
 
-export function loadNextPage(nextPageUrl) {
+export function fetchNextPokeList(nextPageUrl) {
   return dispatch => {
     axios
     .get(nextPageUrl)
