@@ -1,13 +1,49 @@
-.GridCards {
-    width: 20%;
-    height: 100px;
+@import url(https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap);
 
-    border: 2px solid black;
+.GridCards {
+    width: 19%;
+    height: fit-content;
+
+    border: 2px solid rgb(20, 6, 39);
     border-radius: 10px;
 
     padding: 15px;
     margin: 15px;
 
-    background-color: antiquewhite;
+    font-family: 'Rubik';
+    letter-spacing: 0.5px;
     word-wrap: break-word;
+
+    background-color: antiquewhite;
+    box-shadow: 3px 3px 0.1px rgb(241, 67, 43);
+}
+
+.GridCards:hover {
+    transform: scale(1.02);
+    cursor: default;
+}
+
+.GridCards:hover img {
+    transform: scale(1.08);
+}
+
+.GridCards a {
+    display: block;
+    margin-left: auto;
+    float: right;
+
+    margin-top: 15px;
+    padding: 5px;
+
+    text-decoration: underline;
+    color: black;
+}
+
+.GridCardsImage {
+    width: 100px;
+    /* width: 100px; */
+
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }

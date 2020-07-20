@@ -20,29 +20,30 @@ class PokeFeed extends Component {
   loadNextPage = () => {
     const nextPage = this.props.nextUrl
     console.log(nextPage);
-    if (typeof nextPage != undefined) {
+    if (typeof nextPage != undefined || nextPage != null) {
       this.props.fetchNextPokeList(nextPage);
     }
   }
 
   render() {
-    // const { isLoading, isLoaded, data } = this.props;
-    // if (isLoading) return 'haha'; 
+    const { isLoading, isLoaded } = this.props;
+    // if (isLoading) return 'loading...';
     // if (!isLoaded || !data) return null;
- 
+
     return(
       <Auxiliary>
         <GridWrapper>
-          {(typeof this.props.pokemonList != 'undefined')?
+          {(typeof this.props.pokemonList != 'undefined' && this.props.isLoaded && this.props.error == null)?
               this.props.pokemonList.map(
               arrEl =>
                 <GridCards
                   key={arrEl[0]}
                   pokeName={arrEl[0]}
-                  pokeUrl={arrEl[1]} />
+                  pokeUrl={arrEl[1]}
+                  pokeId={arrEl[2]} />
               )
           : 'loading...'}
-          <button onClick={this.loadNextPage}>Show More</button>
+          <button className={classes.ShowMoreButton} onClick={this.loadNextPage}>Show More</button>
         </GridWrapper>
       </Auxiliary>
     )
@@ -50,7 +51,7 @@ class PokeFeed extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log('state:', state)
+  console.log('state:', state.pokeFeedReducer.pokemonList)
   return {
     pokemonList: state.pokeFeedReducer.pokemonList,
     prevUrl: state.pokeFeedReducer.prevUrl,

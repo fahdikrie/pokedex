@@ -3,6 +3,7 @@ import {
   FETCH_POKEMON_LIST,
   FETCH_POKEMON_LIST_SUCCESS,
   FETCH_POKEMON_LIST_FAILED,
+  FETCH_NEXT_POKEMON_LIST,
   FETCH_NEXT_POKEMON_LIST_SUCCESS,
   FETCH_NEXT_POKEMON_LIST_FAILED
 } from "./constants";
@@ -31,6 +32,7 @@ export function fetchPokeList() {
 
 export function fetchNextPokeList(nextPageUrl) {
   return dispatch => {
+    dispatch({ type: FETCH_NEXT_POKEMON_LIST });
     axios
     .get(nextPageUrl)
     .then(response => {

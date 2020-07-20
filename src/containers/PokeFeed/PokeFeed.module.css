@@ -1,0 +1,6 @@
+.ShowMoreButton {
+    flex-basis: 8%;
+    align-self: center;
+    display: block;
+    margin-top: 15px;
+}

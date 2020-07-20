@@ -27,14 +27,17 @@ function pokeFeedReducer(state = initialState, action) {
     case FETCH_POKEMON_LIST:
       console.log('fetching...');
       return {
-        ...initialState,
+        ...state,
         isLoading: true
       }
+
     case FETCH_POKEMON_LIST_SUCCESS:
       console.log('success!');
+      const pokemonData = action.payload.results.map(arr => [arr.name.toUpperCase(), arr.url]);
+
       return {
-        ...initialState,
-        pokemonList: action.payload.results.map(arr => [arr.name, arr.url]),
+        ...state,
+        pokemonList: pokemonData.map((arr, i) => [arr[0], arr[1], i+1]),
         prevUrl: action.payload.previous,
         nextUrl: action.payload.next,
         isLoaded: true,
@@ -43,7 +46,7 @@ function pokeFeedReducer(state = initialState, action) {
 
     case FETCH_POKEMON_LIST_FAILED:
       return {
-        ...initialState,
+        ...state,
         error: action.payload,
         isLoading: false,
         isLoaded: false
@@ -52,17 +55,18 @@ function pokeFeedReducer(state = initialState, action) {
     case FETCH_NEXT_POKEMON_LIST:
       console.log('fetching...');
       return {
-        ...initialState,
-        isLoading: true
+        ...state,
+        isLoading: true,
+        isNextLoading: true
       }
 
     case FETCH_NEXT_POKEMON_LIST_SUCCESS:
       console.log('success!');
-      const newPokemonData = action.payload.results.map(arr => [arr.name, arr.url]);
+      const newPokemonData = action.payload.results.map(arr => [arr.name.toUpperCase(), arr.url]);
 
       return {
-        ...initialState,
-        pokemonList: [...state.pokemonList].concat(newPokemonData),
+        ...state,
+        pokemonList: [...state.pokemonList].concat(newPokemonData).map((arr, i) => [arr[0], arr[1], i+1]),
         prevUrl: action.payload.previous,
         nextUrl: action.payload.next,
         isLoaded: true,
@@ -71,7 +75,7 @@ function pokeFeedReducer(state = initialState, action) {
 
     case FETCH_NEXT_POKEMON_LIST_FAILED:
       return {
-        ...initialState,
+        ...state,
         error: action.payload,
         isLoading: false,
         isLoaded: false
